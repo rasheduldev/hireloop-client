@@ -10,7 +10,6 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -26,120 +25,101 @@ function Logo() {
   return (
     <Link
       href="/"
-      className="rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+      className="rounded-md outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
     >
       <Image src={logo} alt="HireLoop" className="h-8 w-auto sm:h-9" priority />
     </Link>
   )
 }
 
-function NavLink({ href, label }: { href: string; label: string }) {
-  return (
-    <Link
-      href={href}
-      className="text-sm font-medium text-white  transition-colors hover:text-foreground"
-    >
-      {label}
-    </Link>
-  )
-}
-
-function SignInLink({ className }: { className?: string }) {
-  return (
-    <Link
-      href="/signin"
-      className={`text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300 ${className ?? ""}`}
-    >
-      Sign In
-    </Link>
-  )
-}
-
-function GetStartedLink({ className }: { className?: string }) {
-  return (
-    <Link
-      href="/get-started"
-      className={`flex h-11 shrink-0 items-center justify-center rounded-xl bg-indigo-500 px-6 text-base font-semibold whitespace-nowrap text-white transition-colors hover:bg-indigo-400 ${className ?? ""}`}
-    >
-      Get Started
-    </Link>
-  )
-}
-
 export function SiteHeader() {
   return (
-    <header className="p-3 sm:p-5">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-2xl bg-[#1c1c1f] px-4 py-3.5 sm:px-7 sm:py-4">
+    <header className="p-4 sm:p-6">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full bg-[#141416]/90 px-6 py-3 backdrop-blur-md sm:px-8">
         <Logo />
 
-        {/* Desktop nav */}
+        {/* Desktop Navigation */}
         <nav className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
-            <NavLink key={link.href} {...link} />
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
+            >
+              {link.label}
+            </Link>
           ))}
-          <span className="h-5 w-px bg-white/15" />
-          <SignInLink />
-          <GetStartedLink />
+
+          <span className="h-4 w-px bg-white/20" />
+
+          <Link
+            href="/signin"
+            className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
+          >
+            Sign In
+          </Link>
+
+          <Link
+            href="/get-started"
+            className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500"
+          >
+            Get Started
+          </Link>
         </nav>
 
-        {/* Mobile nav */}
+        {/* Mobile Navigation */}
         <Sheet>
-          <SheetTrigger
-            render={
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-foreground/80 hover:text-foreground md:hidden"
-                aria-label="Open menu"
-              />
-            }
-          >
-            <MenuIcon />
+          <SheetTrigger >
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-gray-300 hover:bg-white/5 hover:text-white md:hidden"
+              aria-label="Open menu"
+            >
+              <MenuIcon className="h-6 w-6" />
+            </Button>
           </SheetTrigger>
           <SheetContent
             side="right"
-            className="w-72 border-white/10 bg-[#1c1c1f] text-foreground sm:max-w-72"
+            className="w-72 border-white/10 bg-[#141416] text-white"
           >
             <SheetHeader>
               <SheetTitle className="sr-only">Menu</SheetTitle>
             </SheetHeader>
-            <nav className="flex flex-col gap-1 px-4">
-              {navLinks.map((link) => (
-                <SheetClose
-                  key={link.href}
-                  render={
+            
+            <div className="flex flex-col gap-6 pt-6">
+              <nav className="flex flex-col gap-2">
+                {navLinks.map((link) => (
+                  <SheetClose key={link.href} >
                     <Link
                       href={link.href}
-                      className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/75 transition-colors hover:bg-white/5 hover:text-foreground"
-                    />
-                  }
-                >
-                  {link.label}
-                </SheetClose>
-              ))}
-            </nav>
-            <SheetFooter className="gap-3">
-              <SheetClose
-                render={
+                      className="rounded-lg px-3 py-2 text-base font-medium text-gray-300 transition-colors hover:bg-white/5 hover:text-white"
+                    >
+                      {link.label}
+                    </Link>
+                  </SheetClose>
+                ))}
+              </nav>
+
+              <div className="flex flex-col gap-3 border-t border-white/10 pt-6">
+                <SheetClose >
                   <Link
                     href="/signin"
-                    className="flex h-11 w-full items-center justify-center rounded-xl border border-white/10 text-sm font-medium text-indigo-400 transition-colors hover:bg-white/5 hover:text-indigo-300"
-                  />
-                }
-              >
-                Sign In
-              </SheetClose>
-              <SheetClose
-                render={
+                    className="flex h-10 w-full items-center justify-center rounded-lg border border-white/10 text-sm font-medium text-white transition-colors hover:bg-white/5"
+                  >
+                    Sign In
+                  </Link>
+                </SheetClose>
+                <SheetClose >
                   <Link
                     href="/get-started"
-                    className="flex h-11 w-full items-center justify-center rounded-xl bg-indigo-500 text-base font-semibold text-white transition-colors hover:bg-indigo-400"
-                  />
-                }
-              >
-                Get Started
-              </SheetClose>
-            </SheetFooter>
+                    className="flex h-10 w-full items-center justify-center rounded-lg bg-indigo-600 text-sm font-medium text-white transition-colors hover:bg-indigo-500"
+                  >
+                    Get Started
+                  </Link>
+                </SheetClose>
+              </div>
+            </div>
           </SheetContent>
         </Sheet>
       </div>
